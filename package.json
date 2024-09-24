@@ -10,9 +10,18 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "chart.js": "^4.4.4",
+    "defu": "^6.1.4",
     "nuxt": "^3.13.0",
     "vue": "latest",
+    "vue-chartjs": "^5.3.1",
     "vue-router": "latest"
   },
-  "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c"
+  "packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c",
+  "devDependencies": {
+    "@nuxtjs/tailwindcss": "^6.12.1",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13"
+  }
 }
