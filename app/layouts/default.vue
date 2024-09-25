@@ -1,9 +1,5 @@
 <template>
-  <div class="bg-secondary min-h-screen">
+  <UContainer>
     <slot />
-  </div>
+  </UContainer>
 </template>
-
-<script lang="ts" setup>
-
-</script>

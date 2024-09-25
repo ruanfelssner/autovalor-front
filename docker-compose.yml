@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+  db:
+    image: mongo:latest
+    command: bash -c "mongod --bind_ip_all || (mongod --repair && mongod --bind_ip_all)"
+    volumes:
+      - ./db:/data/db
+      - ./dump:/dump
+    ports:
+      - "27017:27017"
+    networks:
+      - my-network
+
+networks:
+  my-network:
