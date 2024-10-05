@@ -9,8 +9,11 @@ export const markService = {
         const data = new MarkModel(mark);
         return await data.save();
     },
-    postAll: async (mark: MarkItem[]) => {
-        return await MarkModel.insertMany(mark);
+    postAll: async (mark: string[]) => {
+        const list = mark.map((item) => {
+            return { name: item }
+        })
+        return await MarkModel.insertMany(list);
     },
     put: async (id: string, mark: MarkItem) => {
         return await MarkModel.findByIdAndUpdate(id, mark);

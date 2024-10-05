@@ -1,12 +1,9 @@
 import { fipeService } from '../modules/fipeService'
-import type { FipeItem } from '@@/schemas/fipe'
+import type { FipeBody } from '@@/schemas/fipe'
 export default defineEventHandler(async (event) => {
-  const body = await readBody<FipeItem>(event)
+  const body = await readBody<FipeBody[]>(event)
   try{
-    const data = await fipeService.post(body)
-    if(!data._id){
-      throw new Error('Error saving data')
-    }
+    const data = await fipeService.postAll(body)
     return data
   }catch(e: any){
     return { message: e.message }

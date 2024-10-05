@@ -1,11 +1,6 @@
 import { Schema, model } from 'mongoose';
 import type { FipeItem, CarItem, MarkItem } from '@@/schemas/fipe'
 
-const markSchema = new Schema<MarkItem>({
-    name: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now }
-});
-
 const carSchema = new Schema<CarItem>({
     fipeNumber: { type: String, required: true },
     mark: { type: Schema.Types.ObjectId, ref: 'Mark', required: true },

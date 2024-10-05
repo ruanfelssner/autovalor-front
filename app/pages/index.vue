@@ -12,21 +12,16 @@
         v-model="search"
       />
       <div class="flex flex-col">
-        <p v-for="(item, id) of data" :key="`${id}-list`">{{ `${item.marca} - ${item.modelo} - ${item.anoModelo} - ${item.mesReferencia}/${item.anoReferencia} - R$ ${item.valor}` }}</p>
+        <p v-for="(item, id) of data" :key="`${id}-list`" class="mb-2" v-show="fipe === null || item._id === fipe">
+          <UButton @click="getFipeData(item._id)">{{ `${item.mark.name} ${item.model} - ${item.year}` }}</UButton>
+        </p>
+        <hr v-if="(data ?? []).length > 0" class="my-8">
       </div>
-      <div class="flex">
+      <div class="flex" v-if="(data ?? []).length > 0">
         <Chart
-          type="line"
-          :data="{
-            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-            datasets: [
-              {
-                label: 'Data One',
-                backgroundColor: '#f87979',
-                data: [40, 39, 10, 40, 39, 80, 40],
-              },
-            ],
-          }"
+          type="bar"
+          :data="chartData"
+          :options="{ responsive: true, maintainAspectRatio: false }"
         />
       </div>
     </UCard>
@@ -34,14 +29,41 @@
 </template>
 
 <script lang="ts" setup>
-import type { FipeItem } from '@@/schemas/fipe'
+import type { CarItem, FipeItem } from '@@/schemas/fipe'
 const search = ref<string>('');
-const { data, status, execute } = await useAsyncData<FipeItem[]>(() => $fetch('/api/search', {
+const fipe = ref<string | null>(null);
+const { data, status, execute } = await useAsyncData<CarItem[]>('searchData', () => $fetch('/api/search', {
   method: "GET",
-  query: { search: search.value }
-}))
+  params: { search: search.value }
+}), { immediate: false });
+
+
+const chartData = ref<any>({
+  labels: [],
+  datasets: [],
+});
+
+const getFipeData = async (id?: string) => {
+  id ? fipe.value = id : null;
+  const dataFipe = await $fetch<FipeItem[]>('/api/fipe/'+id);
+  if(dataFipe.length > 0){
+    chartData.value = {
+      labels: dataFipe.map((item: FipeItem) => `${item.month}/${item.year}`),
+      datasets: [
+        {
+          label: 'Valor',
+          backgroundColor: '#f87979',
+          data: dataFipe.map((item: FipeItem) => item.value),
+        },
+      ],
+    };
+  }
+}
+
 
 watch(search, () => {
-  execute();
+  if(search){
+    execute();
+  }
 });
 </script>

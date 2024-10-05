@@ -1,5 +1,5 @@
 import { fipeService } from '../modules/fipeService'
-import type { FipeItem } from '@@/schemas/fipe'
+import type { CarItem } from '@@/schemas/fipe'
 import { getQuery } from 'h3'
 
 export default defineEventHandler(async (event) => {
@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     if (typeof search !== 'string') {
       throw new Error('Search parameter must be a string')
     }
-    return await fipeService.getSearch(search) as FipeItem[]
+    return await fipeService.getSearch(search) as CarItem[]
   }catch(e: any){
     return { message: e.message }
   }
